@@ -1,0 +1,57 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <map>
+using namespace std;
+
+class MyClass {
+public:
+    std::vector<std::pair<int, std::string>> my_vec;
+
+    void addElement(int number, std::string str) {
+        auto my_pair = std::make_pair(number, str);
+
+        std::vector<std::pair<int, std::string>>::iterator it = std::find(my_vec.begin(), my_vec.end(), my_pair);
+
+        if (it != my_vec.end()) { return; }
+
+        else {
+            my_vec.push_back(my_pair);
+        };
+    }
+
+    void printStructures() {
+        for (auto it = my_vec.begin(); it != my_vec.end(); it++) {
+            std::cout << it->first << " " << it-> second << std::endl;
+        }
+    }
+
+   friend MyClass operator +=(const MyClass& left,const MyClass& right);
+};
+
+void operator +=(MyClass& left, const MyClass& right){
+//    std:: cout << "_________right__begin_____________" << endl;
+    for (auto it = right.my_vec.begin(); it != right.my_vec.end(); it++) {
+//        std:: cout << it->first << " " << it->second << endl;
+        left.addElement(it->first, it->second);
+    }
+//    std:: cout << "_________right__end_____________" << endl;
+}
+
+int main(){
+    MyClass obj1;
+    obj1.addElement(1, "hi");
+    obj1.addElement(2, "hello");
+    obj1.addElement(2, "hello");
+//    obj1.printStructures();
+    MyClass obj2;
+    obj2.addElement(3, "hey");
+    obj2.addElement(4, "pop");
+    obj2.addElement(2, "hello");
+    obj2.addElement(5, "hello");
+//    obj2.printStructures();
+    obj1 += obj2;
+    obj1.printStructures();
+    return 0;
+}
