@@ -1,0 +1,44 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <map>
+using namespace std;
+
+class FrequencyTree {
+public:
+
+    std::map< int, int> my_map;
+    FrequencyTree(){}
+
+    void addValue(int number){
+        map<int , int>::iterator result = my_map.find(number);
+        int one = 1;
+        if (!(result != my_map.end())){
+            my_map.emplace(number, one);
+        }
+        else{
+            int value = result->second;
+            value++;
+            my_map.erase(result);
+            my_map.emplace(number, value);
+        }
+    }
+
+    void printValues(){
+        for (auto it = my_map.begin(); it != my_map.end(); it++){
+            cout << it->first << " " << it->second << endl;
+        }
+    }
+};
+
+int main(){
+    FrequencyTree ftree;
+    ftree.addValue(2);
+    ftree.addValue(2);
+    ftree.addValue(2);
+    ftree.addValue(3);
+    ftree.addValue(3);
+    ftree.printValues();
+    return 0;
+}
